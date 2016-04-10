@@ -49,7 +49,7 @@ depth = [5, 7, 10]
 estimator = GridSearchCV(pipe,
                          dict(
                              pca__n_components=n_components,
-                             variance_threshold__variance_threshold=v_treshold,
+                             variance_threshold__threshold=v_treshold,
                              random_forest__max_depth=depth
                          ),
                          scoring='log_loss')
