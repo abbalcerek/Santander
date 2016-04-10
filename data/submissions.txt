@@ -1,0 +1,27 @@
+sub 1
+    sub file: baseline.csv
+    script: baseline.py
+    classifier:
+        LogisticRegression()
+    params: -
+    score on lb: 0.590049
+    eval method: log_los
+
+sub 2
+    sub file: rf30_5_20.csv
+    script: model11.py
+    classifier:
+        RandomForestClassifier(n_estimators=30, max_depth=5, max_features=20)
+    params: n_estimators=30, max_depth=5, max_features=20
+    score on lb: 0.799116
+    eval method: log_los
+
+sub 3
+    sub file: dim_red.csv
+    script: model11.py
+    pca = PCA(n_components=250)
+    random_forest = RandomForestClassifier(n_estimators=30, max_depth=5, max_features=20)
+    pipe = Pipeline(steps=[('pca', pca), ('random_forest', random_forest)])
+    score on lb: 0.810338
+    eval method: log_los
+
