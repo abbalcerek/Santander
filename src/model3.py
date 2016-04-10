@@ -52,12 +52,12 @@ estimator = GridSearchCV(pipe,
                              variance_threshold__threshold=v_treshold,
                              random_forest__max_depth=depth
                          ),
-                         scoring='log_loss')
+                         scoring='roc_auc')
 estimator.fit(df, target)
 #
 print(estimator.best_params_)
 scores = cross_validation.cross_val_score(estimator.best_estimator_, df, target,
-                                              cv=5, scoring='log_loss')
+                                              cv=5, scoring='roc_auc')
 print(scores.mean(), scores)
 #
 # train_transformed = pca.fit_transform(df)
