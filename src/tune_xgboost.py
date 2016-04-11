@@ -39,7 +39,7 @@ param_dist = {
     "learning_rate": [0.1, 0.05, 0.02],
 }
 
-randomizedSearch = RandomizedSearchCV(m2_xgb, param_distributions=param_dist, verbose=1)
+randomizedSearch = RandomizedSearchCV(m2_xgb, n_iter=20, param_distributions=param_dist, verbose=2)
 randomizedSearch.fit(df, target)
 
 best = randomizedSearch.best_estimator_
