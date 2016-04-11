@@ -26,8 +26,8 @@ df_test.drop(to_remove, axis=1, inplace=True)
 variance_threshold = VarianceThreshold(threshold=0.001)
 
 scaler = StandardScaler()
-pca = PCA(n_components=100)
-random_forest = RandomForestClassifier(n_estimators=30, max_depth=5, max_features=20)
+pca = PCA(n_components=120)
+random_forest = RandomForestClassifier(n_estimators=30, max_depth=7, max_features=20)
 
 pipe = Pipeline(steps=[
     ('variance_threshold', variance_threshold),
@@ -43,7 +43,7 @@ pipe.fit(df, target)
 
 
 # n_components =[20, 40, 64, 100, 150, 200]
-n_components = [50, 70, 100, 120, 140, 160]
+n_components = [50, 100, 140, 160]
 v_treshold = [0.1, 0.01, 0.001]
 depth = [5, 7, 10]
 estimator = GridSearchCV(pipe,
@@ -53,21 +53,21 @@ estimator = GridSearchCV(pipe,
                              random_forest__max_depth=depth
                          ),
                          scoring='roc_auc')
-estimator.fit(df, target)
-#
-print(estimator.best_params_)
-scores = cross_validation.cross_val_score(estimator.best_estimator_, df, target,
-                                              cv=5, scoring='roc_auc')
-print(scores.mean(), scores)
+# estimator.fit(df, target)
+# #
+# print(estimator.best_params_)
+# scores = cross_validation.cross_val_score(estimator.best_estimator_, df, target,
+#                                               cv=5, scoring='roc_auc')
+# print(scores.mean(), scores)
 #
 # train_transformed = pca.fit_transform(df)
 # print(train_transformed.shape)
 
-# pipe.fit(df, target)
+pipe.fit(df, target)
 
 # scores = cross_validation.cross_val_score(pipe, df, target,
 #                                               cv=5, scoring='roc_auc')
 # print(scores.mean(), scores)
 
-# from src.submission import make_submission
-# make_submission('clean_data.csv', df_test['ID'], pipe.predict_proba(df_test))
+from src.submission import make_submission
+make_submission('clean_data.csv', df_test['ID'], pipe.predict_proba(df_test))
