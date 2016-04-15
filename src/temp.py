@@ -59,19 +59,19 @@ df1 = pd.DataFrame(d)
 # print(df1.at['a', 'one'])
 
 
-def remove_correlated(df, th):
-    to_remove = set()
-    corr = df.corr()
-    col_pairs = ((row, col) for row in corr.index
-                            for col in corr.columns if row < col)
-    for row, col in col_pairs:
-        if (row in to_remove) or (col in to_remove):
-            pass
-        else:
-            if corr.at[row, col] > th:
-                to_remove.add(col)
-    df.drop(to_remove, axis=1, inplace=True)
-    return df, to_remove
+# def remove_correlated(df, th):
+#     to_remove = set()
+#     corr = df.corr()
+#     col_pairs = ((row, col) for row in corr.index
+#                             for col in corr.columns if row < col)
+#     for row, col in col_pairs:
+#         if (row in to_remove) or (col in to_remove):
+#             pass
+#         else:
+#             if corr.at[row, col] > th:
+#                 to_remove.add(col)
+#     df.drop(to_remove, axis=1, inplace=True)
+#     return df, to_remove
 
 
 # pairs = ((row, col) for row in df1.index for col in df1.columns if row < col)
@@ -79,9 +79,9 @@ def remove_correlated(df, th):
 # print(pairsf(df1, 0.9))
 
 
-transformed, removed = remove_correlated(df, 0.9)
-print(removed)
-print(len(removed))
+# transformed, removed = remove_correlated(df, 0.9)
+# print(removed)
+# print(len(removed))
 
 # print(list(pairs))
 # for index in df1.itertuples():
@@ -89,3 +89,6 @@ print(len(removed))
 #     print(index)
 #     # print(row)
 #     print()
+
+
+print df['TARGET'].mean()

@@ -9,7 +9,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier
-
+from unbalanced_dataset import OverSampler
 
 from src.utils import data_path
 
@@ -30,6 +30,13 @@ df_test.drop(to_remove, axis=1, inplace=True)
 variance_threshold = VarianceThreshold(threshold=0.001)
 df = variance_threshold.fit_transform(df)
 
+ratio = float(sum(target)) / float(len(target) - sum(target))
+print(ratio)
+
+smote = OverSampler(ratio=ratio * 2, verbose=True)
+print(type(target))
+# df, target = smote.fit_transform(df.as_matrix(), target.as_matrix())
+
 df_test = variance_threshold.fit(df_test)
 
 gbc = GradientBoostingClassifier()
@@ -37,7 +44,7 @@ gbc.fit(df, target)
 
 # best = randomizedSearch.best_estimator_
 # print(randomizedSearch.best_params_)
-scores = cross_validation.cross_val_score(gbc, df, target, cv=5, scoring='roc_auc')
+scores = cross_validation.cross_val_score(gbc, df, target, cv=5, scoring='roc_auc', verbose=3)
 print(scores.mean(), scores)
 
 # from src.submission import make_submission
